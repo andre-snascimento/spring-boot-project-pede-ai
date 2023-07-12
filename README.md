@@ -12,62 +12,128 @@ Uma solução com uma arquitetura em camadas com domínios detalhados, serviços
 
 A seguir os domínios em detalhes para uma aplicação de um site de marketplace de comida, usando o Spring Boot em Java:
 
-    Usuário:
+### Usuário:
 
-    Descrição: Representa os usuários do marketplace, incluindo clientes e restaurantes.
-    Atributos:
-        ID: Identificador único do usuário.
-        Nome: Nome do usuário.
-        E-mail: Endereço de e-mail do usuário.
-        Senha: Senha do usuário (geralmente armazenada de forma criptografada).
-        Papel: Indica o papel do usuário (cliente ou restaurante).
-        Endereços: Lista de endereços associados ao usuário (endereço de entrega para clientes e endereço do restaurante para restaurantes).
-    Relacionamentos:
-        Pedidos: Relacionamento um-para-muitos com os pedidos feitos pelo usuário.
-        Avaliações: Relacionamento um-para-muitos com as avaliações deixadas pelo usuário.
+#### Descrição: 
+Representa os usuários do marketplace, incluindo clientes e restaurantes.
 
-    Pedido:
+#### Atributos:
 
-    Descrição: Representa um pedido feito por um cliente.
-    Atributos:
-        ID: Identificador único do pedido.
-        Data e Hora: Data e hora em que o pedido foi feito.
-        Itens: Lista de itens do pedido, contendo informações como nome, quantidade, preço, etc.
-        Endereço de Entrega: Endereço de entrega fornecido pelo cliente.
-        Status: Status do pedido (em preparação, em rota, entregue, etc.).
-        Valor Total: Valor total do pedido.
-    Relacionamentos:
-        Cliente: Relacionamento muitos-para-um com o cliente que fez o pedido.
-        Restaurante: Relacionamento muitos-para-um com o restaurante responsável pelo pedido.
+- ID: Identificador único do usuário.  
+- Nome: Nome do usuário.
+- E-mail: Endereço de e-mail do usuário. 
+- Senha: Senha do usuário (geralmente armazenada de forma criptografada).
+- Papel: Indica o papel do usuário (cliente ou restaurante).
+- Endereços: Lista de endereços associados ao usuário (endereço de entrega para clientes e endereço do restaurante para restaurantes).
+ 
+#### Relacionamentos:
+- Pedidos: Relacionamento um-para-muitos com os pedidos feitos pelo usuário.
+- Avaliações: Relacionamento um-para-muitos com as avaliações deixadas pelo usuário.
 
-    Restaurante:
+### Pedido:
 
-    Descrição: Representa os restaurantes que oferecem comida no marketplace.
-    Atributos:
-        ID: Identificador único do restaurante.
-        Nome: Nome do restaurante.
-        Endereço: Endereço do restaurante.
-        Horários de Funcionamento: Horários de abertura e fechamento do restaurante.
-        Tipo de Cozinha: Tipo de culinária oferecida pelo restaurante.
-    Relacionamentos:
-        Itens de Menu: Relacionamento um-para-muitos com os itens disponíveis no menu do restaurante.
-        Pedidos Recebidos: Relacionamento um-para-muitos com os pedidos feitos pelos clientes.
+#### Descrição: 
+Representa um pedido feito por um cliente.
+#### Atributos:
+- ID: Identificador único do pedido.
+- Data e Hora: Data e hora em que o pedido foi feito.
+- Itens: Lista de itens do pedido, contendo informações como nome, quantidade, preço, etc.
+- Endereço de Entrega: Endereço de entrega fornecido pelo cliente.
+- Status: Status do pedido (em preparação, em rota, entregue, etc.).
+- Valor Total: Valor total do pedido.
 
-    Item de Menu:
+#### Relacionamentos:
+- Cliente: Relacionamento muitos-para-um com o cliente que fez o pedido.
+- Restaurante: Relacionamento muitos-para-um com o restaurante responsável pelo pedido.
 
-    Descrição: Representa os pratos ou produtos disponíveis no menu de um restaurante.
-    Atributos:
-        ID: Identificador único do item de menu.
-        Nome: Nome do item.
-        Descrição: Descrição do item.
-        Preço: Preço do item.
-        Disponibilidade: Indica se o item está disponível ou não.
-    Relacionamentos:
-        Restaurante: Relacionamento muitos-para-um com o restaurante ao qual o item de menu pertence.
+### Restaurante:
+
+#### Descrição: 
+Representa os restaurantes que oferecem comida no marketplace.
+
+#### Atributos:
+- ID: Identificador único do restaurante.
+- Nome: Nome do restaurante.
+- Endereço: Endereço do restaurante.
+- Horários de Funcionamento: Horários de abertura e fechamento do restaurante.
+- Tipo de Cozinha: Tipo de culinária oferecida pelo restaurante.
+
+#### Relacionamentos:
+- Itens de Menu: Relacionamento um-para-muitos com os itens disponíveis no menu do restaurante.
+- Pedidos Recebidos: Relacionamento um-para-muitos com os pedidos feitos pelos clientes.
+
+### Item de Menu:
+
+#### Descrição: 
+Representa os pratos ou produtos disponíveis no menu de um restaurante.
+
+#### Atributos:
+- ID: Identificador único do item de menu.
+- Nome: Nome do item.
+- Descrição: Descrição do item.
+- Preço: Preço do item. 
+- Disponibilidade: Indica se o item está disponível ou não.
+ 
+#### Relacionamentos:
+- Restaurante: Relacionamento muitos-para-um com o restaurante ao qual o item de menu pertence.
 
 Esses são exemplos de domínios que podem ser utilizados em uma aplicação de marketplace de comida usando o Spring Boot em Java. Lembre-se de ajustar esses domínios de acordo com os requisitos específicos do seu projeto, adicionando ou removendo atributos e relacionamentos conforme necessário.
 
-2. Serviços:
+2. Controllers:
+- AutenticaçãoController: gerencia endpoints relacionados à autenticação, como login e logout.
+- UserController: trata as requisições relacionadas aos usuários, como endpoints para registro, atualização de perfil e gerenciamento de endereços.
+- PedidoController: lida com as requisições relacionadas aos pedidos, como criar um novo pedido, rastrear status, cancelar um pedido, etc.
+- RestauranteController: gerencia as requisições relacionadas a restaurantes, como registro de restaurante, adição e atualização de itens de menu.
+- PagamentoController: lida com as requisições de pagamento, como processar um pagamento para um pedido.
+
+A seguir os controllers em detalhes para uma aplicação de um site de marketplace de comida, semelhante ao iFood, usando o Spring Boot em Java:
+
+    AutenticaçãoController:
+
+    Descrição: Gerencia endpoints relacionados à autenticação, como login e logout.
+    Endpoints:
+        POST /api/login: Recebe as credenciais de login (e-mail e senha) do usuário, verifica a autenticidade das credenciais e gera um token de autenticação válido.
+        POST /api/logout: Invalida o token de autenticação atual, efetuando o logout do usuário.
+
+    UserController:
+
+    Descrição: Trata as requisições relacionadas aos usuários, como registro, atualização de perfil e gerenciamento de endereços.
+    Endpoints:
+        POST /api/users: Registra um novo usuário no sistema, recebendo informações como nome, e-mail e senha.
+        GET /api/users/{userId}: Obtém os detalhes do perfil de um usuário específico com base no ID do usuário.
+        PUT /api/users/{userId}: Atualiza as informações do perfil de um usuário específico com base no ID do usuário.
+        GET /api/users/{userId}/addresses: Obtém a lista de endereços associados a um usuário específico.
+        POST /api/users/{userId}/addresses: Adiciona um novo endereço ao perfil de um usuário específico.
+        PUT /api/users/{userId}/addresses/{addressId}: Atualiza as informações de um endereço específico de um usuário.
+
+    PedidoController:
+
+    Descrição: Lida com as requisições relacionadas aos pedidos, como criação, rastreamento de status, cancelamento e histórico de pedidos.
+    Endpoints:
+        POST /api/orders: Cria um novo pedido para um usuário autenticado, recebendo informações como itens do pedido, endereço de entrega, detalhes de pagamento, etc.
+        GET /api/orders/{orderId}: Obtém os detalhes de um pedido específico com base no ID do pedido.
+        GET /api/orders: Obtém o histórico de pedidos de um usuário autenticado.
+        PUT /api/orders/{orderId}/cancel: Cancela um pedido específico com base no ID do pedido.
+        GET /api/orders/{orderId}/track: Obtém o status atual de um pedido específico com base no ID do pedido.
+
+    RestauranteController:
+
+    Descrição: Gerencia as requisições relacionadas a restaurantes, como registro, adição e atualização de itens de menu.
+    Endpoints:
+        POST /api/restaurants: Registra um novo restaurante no sistema, recebendo informações como nome, endereço, horários de funcionamento, etc.
+        POST /api/restaurants/{restaurantId}/menu: Adiciona um novo item ao menu de um restaurante específico com base no ID do restaurante.
+        PUT /api/restaurants/{restaurantId}/menu/{itemId}: Atualiza as informações de um item específico do menu de um restaurante com base nos IDs do restaurante e do item.
+
+    PagamentoController:
+
+    Descrição: Lida com as requisições de pagamento, processando o pagamento para um pedido.
+    Endpoints:
+        POST /api/payments/process: Recebe as informações de pagamento, como o token de pagamento, valor total e ID do pedido, e processa o pagamento.
+        GET /api/payments/{paymentId}: Obtém os detalhes de um pagamento específico com base no ID do pagamento.
+
+Esses são exemplos de controllers que podem ser utilizados em uma aplicação de marketplace de comida usando o Spring Boot em Java. Lembre-se de ajustar esses controllers de acordo com os requisitos específicos do seu projeto, adicionando ou removendo endpoints e funcionalidades conforme necessário.
+
+3. Serviços:
 - Serviço de Autenticação: gerencia a autenticação e autorização de usuários.
 - Serviço de Usuário: lida com operações relacionadas a usuários, como registro, login, atualização de perfil e gerenciamento de endereços.
 - Serviço de Pedido: gerencia operações relacionadas a pedidos, como criação de pedidos, rastreamento de status, histórico de pedidos e cancelamento de pedidos.
@@ -122,60 +188,6 @@ A seguir os serviços em detalhes para uma aplicação de um site de marketplace
         getPaymentById(paymentId): Obtém os detalhes de um pagamento específico com base no ID do pagamento.
 
 Esses são exemplos de serviços que podem ser utilizados em uma aplicação de marketplace de comida usando o Spring Boot em Java. Lembre-se de ajustar esses serviços de acordo com os requisitos específicos do seu projeto, implementando as funcionalidades necessárias para a sua aplicação.
-
-3. Controllers:
-- AutenticaçãoController: gerencia endpoints relacionados à autenticação, como login e logout.
-- UserController: trata as requisições relacionadas aos usuários, como endpoints para registro, atualização de perfil e gerenciamento de endereços.
-- PedidoController: lida com as requisições relacionadas aos pedidos, como criar um novo pedido, rastrear status, cancelar um pedido, etc.
-- RestauranteController: gerencia as requisições relacionadas a restaurantes, como registro de restaurante, adição e atualização de itens de menu.
-- PagamentoController: lida com as requisições de pagamento, como processar um pagamento para um pedido.
-
-A seguir os controllers em detalhes para uma aplicação de um site de marketplace de comida, semelhante ao iFood, usando o Spring Boot em Java:
-
-    AutenticaçãoController:
-
-    Descrição: Gerencia endpoints relacionados à autenticação, como login e logout.
-    Endpoints:
-        POST /api/login: Recebe as credenciais de login (e-mail e senha) do usuário, verifica a autenticidade das credenciais e gera um token de autenticação válido.
-        POST /api/logout: Invalida o token de autenticação atual, efetuando o logout do usuário.
-
-    UserController:
-
-    Descrição: Trata as requisições relacionadas aos usuários, como registro, atualização de perfil e gerenciamento de endereços.
-    Endpoints:
-        POST /api/users: Registra um novo usuário no sistema, recebendo informações como nome, e-mail e senha.
-        GET /api/users/{userId}: Obtém os detalhes do perfil de um usuário específico com base no ID do usuário.
-        PUT /api/users/{userId}: Atualiza as informações do perfil de um usuário específico com base no ID do usuário.
-        GET /api/users/{userId}/addresses: Obtém a lista de endereços associados a um usuário específico.
-        POST /api/users/{userId}/addresses: Adiciona um novo endereço ao perfil de um usuário específico.
-        PUT /api/users/{userId}/addresses/{addressId}: Atualiza as informações de um endereço específico de um usuário.
-
-    PedidoController:
-
-    Descrição: Lida com as requisições relacionadas aos pedidos, como criação, rastreamento de status, cancelamento e histórico de pedidos.
-    Endpoints:
-        POST /api/orders: Cria um novo pedido para um usuário autenticado, recebendo informações como itens do pedido, endereço de entrega, detalhes de pagamento, etc.
-        GET /api/orders/{orderId}: Obtém os detalhes de um pedido específico com base no ID do pedido.
-        GET /api/orders: Obtém o histórico de pedidos de um usuário autenticado.
-        PUT /api/orders/{orderId}/cancel: Cancela um pedido específico com base no ID do pedido.
-        GET /api/orders/{orderId}/track: Obtém o status atual de um pedido específico com base no ID do pedido.
-
-    RestauranteController:
-
-    Descrição: Gerencia as requisições relacionadas a restaurantes, como registro, adição e atualização de itens de menu.
-    Endpoints:
-        POST /api/restaurants: Registra um novo restaurante no sistema, recebendo informações como nome, endereço, horários de funcionamento, etc.
-        POST /api/restaurants/{restaurantId}/menu: Adiciona um novo item ao menu de um restaurante específico com base no ID do restaurante.
-        PUT /api/restaurants/{restaurantId}/menu/{itemId}: Atualiza as informações de um item específico do menu de um restaurante com base nos IDs do restaurante e do item.
-
-    PagamentoController:
-
-    Descrição: Lida com as requisições de pagamento, processando o pagamento para um pedido.
-    Endpoints:
-        POST /api/payments/process: Recebe as informações de pagamento, como o token de pagamento, valor total e ID do pedido, e processa o pagamento.
-        GET /api/payments/{paymentId}: Obtém os detalhes de um pagamento específico com base no ID do pagamento.
-
-Esses são exemplos de controllers que podem ser utilizados em uma aplicação de marketplace de comida usando o Spring Boot em Java. Lembre-se de ajustar esses controllers de acordo com os requisitos específicos do seu projeto, adicionando ou removendo endpoints e funcionalidades conforme necessário.
 
 4. Casos de Uso:
 - Registro de Usuário: o usuário cria uma conta no marketplace, fornecendo informações básicas e credenciais de login.
