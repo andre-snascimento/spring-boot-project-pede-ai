@@ -1,4 +1,4 @@
-package net.snascimento.pedeai.domains;
+package net.snascimento.pedeai.domain;
 
 import java.util.List;
 import lombok.Data;
