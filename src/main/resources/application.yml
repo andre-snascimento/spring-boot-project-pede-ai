@@ -1,0 +1,5 @@
+spring:
+    data:
+        mongodb:
+            database: pedeai
+            uri: mongodb+srv://user_pedeai:22rUD6d4d5rxApZa@sandbox.4agqt.mongodb.net/?retryWrites=true&w=majority
