@@ -1,5 +1,7 @@
 spring:
+    config:
+        import: optional:env.properties
     data:
         mongodb:
-            database: pedeai
-            uri: mongodb+srv://user_pedeai:22rUD6d4d5rxApZa@sandbox.4agqt.mongodb.net/?retryWrites=true&w=majority
+            database: ${DB_DATABASE}
+            uri: ${DB_URI}
