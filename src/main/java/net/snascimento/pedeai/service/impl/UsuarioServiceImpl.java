@@ -1,8 +1,9 @@
-package net.snascimento.pedeai.service;
+package net.snascimento.pedeai.service.impl;
 
 import java.util.List;
 import net.snascimento.pedeai.domain.Usuario;
 import net.snascimento.pedeai.repository.UsuarioRepository;
+import net.snascimento.pedeai.service.UsuarioService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
   @Override
   public Usuario saveOrUpdateUsuario(Usuario usuario) {
+
     return usuarioRepository.save(usuario);
   }
 
