@@ -2,6 +2,7 @@ package net.snascimento.pedeai.controller;
 
 import java.util.List;
 import net.snascimento.pedeai.domain.Usuario;
+import net.snascimento.pedeai.dto.UsuarioDTO;
 import net.snascimento.pedeai.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class UsuarioController {
   }
 
   @PostMapping(value = "")
-  ResponseEntity<?> saveOrUpdateUsuario(@RequestBody Usuario usuario) {
-    usuarioService.saveOrUpdateUsuario(usuario);
-    return new ResponseEntity<>("Usuario adicionado com sucesso", HttpStatus.OK);
+  ResponseEntity<Usuario> saveOrUpdateUsuario(@RequestBody UsuarioDTO usuarioDto) {
+    Usuario usuario= usuarioService.saveOrUpdateUsuario(usuarioDto.transformaParaObjeto());
+    return new ResponseEntity<>(usuario, HttpStatus.OK);
   }
 }
