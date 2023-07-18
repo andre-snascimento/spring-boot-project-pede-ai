@@ -1,9 +1,7 @@
 package net.snascimento.pedeai;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
 import org.bson.Document;
 import org.junit.jupiter.api.Test;

@@ -4,6 +4,8 @@ import java.util.List;
 import net.snascimento.pedeai.domain.Usuario;
 import net.snascimento.pedeai.dto.UsuarioDTO;
 import net.snascimento.pedeai.service.UsuarioService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
   private final UsuarioService usuarioService;
+  @Autowired private ModelMapper modelMapper;
 
   public UsuarioController(UsuarioService usuarioService) {
     this.usuarioService = usuarioService;
@@ -28,8 +31,10 @@ public class UsuarioController {
   }
 
   @PostMapping(value = "")
-  ResponseEntity<Usuario> saveOrUpdateUsuario(@RequestBody UsuarioDTO usuarioDto) {
-    Usuario usuario= usuarioService.saveOrUpdateUsuario(usuarioDto.transformaParaObjeto());
-    return new ResponseEntity<>(usuario, HttpStatus.OK);
+  ResponseEntity<UsuarioDTO> saveOrUpdateUsuario(@RequestBody UsuarioDTO usuarioDto) {
+    Usuario usuarioRequest = modelMapper.map(usuarioDto, Usuario.class);
+    Usuario usuario = usuarioService.saveOrUpdateUsuario(usuarioRequest);
+    UsuarioDTO usuarioResponse = modelMapper.map(usuario, UsuarioDTO.class);
+    return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
   }
 }
