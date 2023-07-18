@@ -5,7 +5,6 @@ import lombok.Data;
 import net.snascimento.pedeai.domain.Avaliacao;
 import net.snascimento.pedeai.domain.Endereco;
 import net.snascimento.pedeai.domain.Pedido;
-import net.snascimento.pedeai.domain.Usuario;
 
 @Data
 public class UsuarioDTO {
@@ -16,8 +15,5 @@ public class UsuarioDTO {
   private List<Endereco> enderecos;
   private List<Pedido> pedidos;
   private List<Avaliacao> avaliacoes;
-
-  public Usuario transformaParaObjeto() {
-    return new Usuario(nome, email, senha, papel, enderecos, pedidos, avaliacoes);
-  }
+  
 }
