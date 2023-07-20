@@ -28,7 +28,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
   @Override
   public Usuario saveOrUpdateUsuario(Usuario usuario) {
-
     return usuarioRepository.save(usuario);
   }
 
@@ -38,7 +37,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   }
 
   @Override
-  public Optional<Usuario> findUsuarioById(String idUsuario) {
-    return usuarioRepository.findById(idUsuario);
+  public Optional<Usuario> findById(String id) {
+    return usuarioRepository.findById(id);
   }
 }
