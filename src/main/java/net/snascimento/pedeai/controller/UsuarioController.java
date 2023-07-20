@@ -45,8 +45,8 @@ public class UsuarioController {
         .toList();
   }
 
-  @GetMapping(value = "/usuarios/{emailUsuario}")
-  public UsuarioDTO getUsuarioByEmail(@RequestParam(value = "emailUsuario") String emailUsuario) {
+  @GetMapping(value = "/usuarios/email")
+  public UsuarioDTO getUsuarioByEmail(@RequestParam String emailUsuario) {
     Usuario usuario = usuarioService.findUsuarioByEmail(emailUsuario);
     return modelMapper.map(usuario, UsuarioDTO.class);
   }
@@ -71,4 +71,6 @@ public class UsuarioController {
         });
     return ResponseEntity.ok(usuarioDto);
   }
+
+
 }
