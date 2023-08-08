@@ -2,6 +2,7 @@ package net.snascimento.pedeai.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import net.snascimento.pedeai.domain.Usuario;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,11 @@ public interface UsuarioService {
 
   List<Usuario> findAll();
 
-  Usuario findUsuarioByEmail(String email);
+  Optional<Usuario> findById(String id);
 
   Usuario saveOrUpdateUsuario(Usuario usuario);
 
-  void deleteUsuarioById(String id);
+  Usuario findUsuarioByEmail(String email);
 
-  Optional<Usuario> findById(String id);
+  void deleteUsuarioById(String id);
 }
