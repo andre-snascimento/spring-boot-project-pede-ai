@@ -18,8 +18,8 @@ public class Usuario {
   private String senha;
   private String papel;
   @DBRef  List<Endereco> enderecos;
-  private List<Pedido> pedidos;
-  private List<Avaliacao> avaliacoes;
+  @DBRef private List<Pedido> pedidos;
+  @DBRef private List<Avaliacao> avaliacoes;
 
   public void adicionaPedido(Pedido pedido) {
     this.pedidos.add(pedido);

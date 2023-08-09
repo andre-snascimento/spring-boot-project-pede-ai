@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import net.snascimento.pedeai.domain.Endereco;
 import net.snascimento.pedeai.domain.Usuario;
-import net.snascimento.pedeai.dto.EnderecoDTO;
 import net.snascimento.pedeai.dto.UsuarioDTO;
 import net.snascimento.pedeai.service.EnderecoService;
 import net.snascimento.pedeai.service.UsuarioService;
@@ -43,16 +42,13 @@ public class UsuarioController {
   }
 
   @PostMapping(value = "/usuarios")
-  ResponseEntity<Usuario> saveUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
+  ResponseEntity<UsuarioDTO> saveUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
     Usuario usuarioRequest = modelMapper.map(usuarioDto, Usuario.class);
-    Endereco endereco = usuarioDto.getEnderecos().get(0);
-    EnderecoDTO enderecoResponse = modelMapper.map(endereco, EnderecoDTO.class);
-    System.out.println(endereco);
+    Endereco endereco = usuarioRequest.getEnderecos().get(0);
     enderecoService.saveOrUpdateEndereco(endereco);
-    System.out.println(enderecoResponse);
     Usuario usuario = usuarioService.saveOrUpdateUsuario(usuarioRequest);
     UsuarioDTO usuarioResponse = modelMapper.map(usuario, UsuarioDTO.class);
-    return new ResponseEntity<>(usuario, HttpStatus.OK);
+    return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
   }
 
   @GetMapping(value = "/usuarios")
@@ -71,22 +67,27 @@ public class UsuarioController {
   @PutMapping(value = "/usuarios/{idUsuario}")
   public ResponseEntity<UsuarioDTO> updateUsuario(
       @PathVariable("idUsuario") String id, @RequestBody UsuarioDTO usuarioDto) {
-    Optional<Usuario> usuario = usuarioService.findById(id);
-    if (usuario.isEmpty()) {
+    Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+
+    if (usuarioOptional.isEmpty()) {
       return ResponseEntity.badRequest().body(usuarioDto);
     }
-    usuario.ifPresent(
-        u -> {
-          u.setNome(ObjectUtils.defaultIfNull(usuarioDto.getNome(), u.getEmail()));
-          u.setEmail(ObjectUtils.defaultIfNull(usuarioDto.getEmail(), u.getEmail()));
-          u.setSenha(ObjectUtils.defaultIfNull(usuarioDto.getSenha(), u.getSenha()));
-          u.setPapel(ObjectUtils.defaultIfNull(usuarioDto.getPapel(), u.getPapel()));
-          u.setEnderecos(ObjectUtils.defaultIfNull(usuarioDto.getEnderecos(), u.getEnderecos()));
-          u.setPedidos(ObjectUtils.defaultIfNull(usuarioDto.getPedidos(), u.getPedidos()));
-          u.setAvaliacoes(ObjectUtils.defaultIfNull(usuarioDto.getAvaliacoes(), u.getAvaliacoes()));
-          usuarioService.saveOrUpdateUsuario(u);
-        });
+
+    Usuario usuario = usuarioOptional.get();
+    List<Endereco> endereco = usuario.getEnderecos();
+
+    usuario.setNome(ObjectUtils.defaultIfNull(usuarioDto.getNome(), usuario.getEmail()));
+    usuario.setEmail(ObjectUtils.defaultIfNull(usuarioDto.getEmail(), usuario.getEmail()));
+    usuario.setSenha(ObjectUtils.defaultIfNull(usuarioDto.getSenha(), usuario.getSenha()));
+    usuario.setPapel(ObjectUtils.defaultIfNull(usuarioDto.getPapel(), usuario.getPapel()));
+    usuario.setEnderecos(ObjectUtils.defaultIfNull(endereco, endereco));
+    usuario.setPedidos(ObjectUtils.defaultIfNull(usuarioDto.getPedidos(), usuario.getPedidos()));
+    usuario.setAvaliacoes(ObjectUtils.defaultIfNull(usuarioDto.getAvaliacoes(), usuario.getAvaliacoes()));
+
+    usuarioService.saveOrUpdateUsuario(usuario);
+
     return ResponseEntity.ok(usuarioDto);
+  
   }
 
   @GetMapping(value = "/usuarios/{idUsuario}/enderecos")

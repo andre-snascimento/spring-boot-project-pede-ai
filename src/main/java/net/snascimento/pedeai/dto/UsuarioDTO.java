@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.Data;
 import net.snascimento.pedeai.domain.Avaliacao;
-import net.snascimento.pedeai.domain.Endereco;
 import net.snascimento.pedeai.domain.Pedido;
 
 @Data
@@ -30,7 +29,7 @@ public class UsuarioDTO {
   @NotBlank(message = "Papel: Não pode ser em branco")
   private String papel;
 
-  private List<Endereco> enderecos;
+  private List<EnderecoDTO> enderecos;
   private List<Pedido> pedidos;
   private List<Avaliacao> avaliacoes;
   

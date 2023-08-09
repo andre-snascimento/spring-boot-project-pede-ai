@@ -11,5 +11,5 @@ public class Avaliacao {
   @Id private String id;
   private int nota;
   private String comentario;
-  private Usuario usuario;
+
 }
