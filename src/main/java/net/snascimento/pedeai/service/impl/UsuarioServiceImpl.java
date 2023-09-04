@@ -12,11 +12,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
   private final UsuarioRepository usuarioRepository;
 
-
-  public UsuarioServiceImpl(
-      UsuarioRepository usuarioRepository) {
+  public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
     this.usuarioRepository = usuarioRepository;
-
   }
 
   @Override
@@ -33,22 +30,6 @@ public class UsuarioServiceImpl implements UsuarioService {
   public Usuario saveOrUpdateUsuario(Usuario usuario) {
     return usuarioRepository.save(usuario);
   }
-  
-//  @Override
-//  public Endereco addEndereco(String idUsuario, Endereco newAddress) throws Exception {
-//    Optional<Usuario> optionalUsuario = usuarioRepository.findById(idUsuario);
-//    if (optionalUsuario.isPresent()) {
-//      Usuario usuario = optionalUsuario.get();
-//      this.saveEndereco(newAddress);
-//      usuario.adicionaEndereco(newAddress);
-//      this.saveOrUpdateUsuario(usuario);
-//      return newAddress;
-//    } else {
-//      throw new Exception("User not found with id: " + idUsuario);
-//    }
-//  }
-
-
 
   @Override
   public void deleteUsuarioById(String id) {

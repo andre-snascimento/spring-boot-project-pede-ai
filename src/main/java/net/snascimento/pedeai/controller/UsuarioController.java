@@ -16,16 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/pedeai")
@@ -88,6 +79,20 @@ public class UsuarioController {
 
     return ResponseEntity.ok(usuarioDto);
   
+  }
+
+  @DeleteMapping("/usuarios/{idUsuario}")
+  public ResponseEntity<Void> deleteUsuario(
+          @PathVariable("idUsuario") String id
+  ){
+    Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+
+    if(usuarioOptional.isEmpty()){
+      return ResponseEntity.badRequest().build();
+    }
+
+    usuarioService.deleteUsuarioById(id);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping(value = "/usuarios/{idUsuario}/enderecos")
