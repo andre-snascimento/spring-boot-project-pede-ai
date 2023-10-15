@@ -17,7 +17,7 @@ public class Usuario {
   private String email;
   private String senha;
   private String papel;
-  @DBRef  List<Endereco> enderecos;
+  @DBRef List<Endereco> enderecos;
   @DBRef private List<Pedido> pedidos;
   @DBRef private List<Avaliacao> avaliacoes;
 

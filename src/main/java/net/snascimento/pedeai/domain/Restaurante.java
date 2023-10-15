@@ -14,6 +14,7 @@ public class Restaurante {
   private String endereco;
   private String horariosFuncionamento;
   private String tipoCozinha;
+  private boolean ativo;
   private List<ItemDeMenu> itensDeMenu;
   private List<Pedido> pedidosRecebidos;
 }
