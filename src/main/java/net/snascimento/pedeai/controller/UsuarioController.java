@@ -26,7 +26,8 @@ public class UsuarioController {
   private final EnderecoService enderecoService;
   private final ModelMapper modelMapper;
 
-  public UsuarioController(UsuarioService usuarioService, EnderecoService enderecoService, ModelMapper modelMapper) {
+  public UsuarioController(
+      UsuarioService usuarioService, EnderecoService enderecoService, ModelMapper modelMapper) {
     this.usuarioService = usuarioService;
     this.enderecoService = enderecoService;
     this.modelMapper = modelMapper;
@@ -73,21 +74,19 @@ public class UsuarioController {
     usuario.setPapel(ObjectUtils.defaultIfNull(usuarioDto.getPapel(), usuario.getPapel()));
     usuario.setEnderecos(ObjectUtils.defaultIfNull(endereco, endereco));
     usuario.setPedidos(ObjectUtils.defaultIfNull(usuarioDto.getPedidos(), usuario.getPedidos()));
-    usuario.setAvaliacoes(ObjectUtils.defaultIfNull(usuarioDto.getAvaliacoes(), usuario.getAvaliacoes()));
+    usuario.setAvaliacoes(
+        ObjectUtils.defaultIfNull(usuarioDto.getAvaliacoes(), usuario.getAvaliacoes()));
 
     usuarioService.saveOrUpdateUsuario(usuario);
 
     return ResponseEntity.ok(usuarioDto);
-  
   }
 
   @DeleteMapping("/usuarios/{idUsuario}")
-  public ResponseEntity<Void> deleteUsuario(
-          @PathVariable("idUsuario") String id
-  ){
+  public ResponseEntity<Void> deleteUsuario(@PathVariable("idUsuario") String id) {
     Optional<Usuario> usuarioOptional = usuarioService.findById(id);
 
-    if(usuarioOptional.isEmpty()){
+    if (usuarioOptional.isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
 
@@ -96,24 +95,24 @@ public class UsuarioController {
   }
 
   @GetMapping(value = "/usuarios/{idUsuario}/enderecos")
-  public ResponseEntity<?> getUsuarioEnderecos(@PathVariable("idUsuario") String id){
+  public ResponseEntity<?> getUsuarioEnderecos(@PathVariable("idUsuario") String id) {
     return ResponseEntity.ok("Lista de Endereços");
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex){
-    Map <String, String> errors = new HashMap<>();
+  public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    Map<String, String> errors = new HashMap<>();
 
-    ex.getBindingResult().getAllErrors().forEach(
-        (error) -> {
-          String fieldName = ((FieldError) error).getField();
-          String errorMessage = error.getDefaultMessage();
-          errors.put(fieldName, errorMessage);
-        }
-    );
+    ex.getBindingResult()
+        .getAllErrors()
+        .forEach(
+            error -> {
+              String fieldName = ((FieldError) error).getField();
+              String errorMessage = error.getDefaultMessage();
+              errors.put(fieldName, errorMessage);
+            });
 
     return errors;
   }
-
 }
